@@ -1,0 +1,24 @@
+From 070fc6d730f4c98d8519756f7ebd7c268661303f Mon Sep 17 00:00:00 2001
+From: "Jan Winkelmann (keks)" <git@keks.cool>
+Date: Fri, 29 Sep 2023 01:05:19 +0200
+Subject: [PATCH] fix cstdint problem
+
+---
+ src/data/ibex_Cov.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/data/ibex_Cov.h b/src/data/ibex_Cov.h
+index 639d077f..90bcf94d 100644
+--- a/src/data/ibex_Cov.h
++++ b/src/data/ibex_Cov.h
+@@ -17,6 +17,7 @@
+ #include <vector>
+ #include <fstream>
+ #include <stack>
++#include <cstdint>
+ 
+ namespace ibex {
+ 
+-- 
+2.42.0
+

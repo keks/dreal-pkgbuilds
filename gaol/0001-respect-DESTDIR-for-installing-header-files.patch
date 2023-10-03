@@ -1,0 +1,41 @@
+From bda8d6d09a9d7ebab70b4087075e93963debf29c Mon Sep 17 00:00:00 2001
+From: "Jan Winkelmann (keks)" <git@keks.cool>
+Date: Tue, 3 Oct 2023 17:13:59 +0200
+Subject: [PATCH] respect DESTDIR for installing header files
+
+---
+ gaol/Makefile.am | 4 ++--
+ gaol/Makefile.in | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/gaol/Makefile.am b/gaol/Makefile.am
+index b1a8eaa..71d77a5 100644
+--- a/gaol/Makefile.am
++++ b/gaol/Makefile.am
+@@ -85,6 +85,6 @@ TAGS: $(gaol_HEADERS) $(libgaol_la_SOURCES)
+ 
+ 
+ install-data-local:
+-	$(mkinstalldirs) $(includedir)/gaol/sysdeps
+-	$(INSTALL_DATA) $(srcdir)/sysdeps/*.h $(includedir)/gaol/sysdeps
++	$(mkinstalldirs) $(DESTDIR)/$(includedir)/gaol/sysdeps
++	$(INSTALL_DATA) $(srcdir)/sysdeps/*.h $(DESTDIR)/$(includedir)/gaol/sysdeps
+ 
+diff --git a/gaol/Makefile.in b/gaol/Makefile.in
+index 4d0a9a9..f6bc2c8 100644
+--- a/gaol/Makefile.in
++++ b/gaol/Makefile.in
+@@ -854,8 +854,8 @@ TAGS: $(gaol_HEADERS) $(libgaol_la_SOURCES)
+ 	else :; fi
+ 
+ install-data-local:
+-	$(mkinstalldirs) $(includedir)/gaol/sysdeps
+-	$(INSTALL_DATA) $(srcdir)/sysdeps/*.h $(includedir)/gaol/sysdeps
++	$(mkinstalldirs) $(DESTDIR)/$(includedir)/gaol/sysdeps
++	$(INSTALL_DATA) $(srcdir)/sysdeps/*.h $(DESTDIR)/$(includedir)/gaol/sysdeps
+ 
+ # Tell versions [3.59,3.63) of GNU make to not export all variables.
+ # Otherwise a system limit (for SysV at least) may be exceeded.
+-- 
+2.42.0
+

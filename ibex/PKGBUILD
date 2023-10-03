@@ -1,0 +1,31 @@
+# Maintainer: Jan Winkelmann <aur@keks.cool>
+pkgname=ibex-lib-drealdeps-git
+pkgver=2.7.4_15
+pkgrel=1
+pkgdesc="IBEX is a C++ library for contraint processing over real numbers"
+arch=('x86_64')
+url="http://ibex-team.github.io/ibex-lib/"
+license=('LGPLv3')
+depends=('coin-or-clp')
+makedepends=("cmake")
+provides=('ibex-lib')
+source=("$pkgname-$pkgver::git+https://github.com/dreal-deps/ibex-lib#branch=ibex-$pkgver" "fix_include_cstdint.patch" "update-waf.patch")
+sha256sums=(SKIP SKIP SKIP)
+#sha256sums=("fee448b3fa3929a50d36231ff2f14e5480a0b82506594861536e3905801a6571" "527144e033d5edff9158ae7b4700a92ea439b0ef4b63738feb1ff8aa8b554ab0")
+
+prepare() {
+  cd $pkgname-$pkgver
+  patch -p1 -i "$srcdir/fix_include_cstdint.patch"
+  patch -p1 -i "$srcdir/update-waf.patch"
+}
+
+build() {
+  cd       $pkgname-$pkgver
+  # mostly taken from https://github.com/dreal/dreal4/issues/307#issuecomment-1740119947
+  CXXFLAGS=-std=c++0x ./waf configure --prefix=/usr --enable-shared --with-optim --with-solver --with-affine-extended --interval-lib=filib --lp-lib=soplex
+}
+
+package() {
+  cd $pkgname-$pkgver
+	./waf --destdir="$pkgdir/" install
+}

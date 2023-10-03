@@ -1,0 +1,35 @@
+# Maintainer: Jan Winkelmann <aur@keks.cool>
+pkgname=dreal-deps-apmathlib-git
+pkgver=r3.d9553be
+pkgrel=1
+pkgdesc="IBM Portable Accurate Mathlib"
+arch=('x86_64')
+url="https://github.com/dreal-deps/mathlib"
+license=('GPL')
+depends=()
+provides=('apmathlib')
+makedepends=()
+source=("${pkgname%-git}::git+https://github.com/dreal-deps/mathlib")
+md5sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+  # Git, no tags available
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+	cd "$srcdir/${pkgname%-git}"
+	./configure --prefix=/usr
+	make
+}
+
+check() {
+	cd "$srcdir/${pkgname%-git}"
+	make -k check
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	make DESTDIR="$pkgdir/" install
+}

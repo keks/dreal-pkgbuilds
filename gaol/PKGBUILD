@@ -1,0 +1,51 @@
+# This is an example PKGBUILD file. Use this as a start to creating your own,
+# and remove these comments. For more information, see 'man PKGBUILD'.
+# NOTE: Please fill out the license field for your package! If it is unknown,
+# then please put 'unknown'.
+
+# Maintainer: Your Name <youremail@domain.com>
+pkgname=gaol-git
+pkgver=4.2
+pkgrel=1
+epoch=
+pkgdesc="A C++ interval arithmetic and constraint solving library"
+arch=('x86_64')
+url=""
+license=('GPL')
+groups=()
+depends=('apmathlib')
+makedepends=()
+checkdepends=()
+optdepends=()
+provides=('gaol')
+conflicts=()
+replaces=()
+backup=()
+options=()
+install=
+changelog=
+source=("${pkgname%-git}::git+https://github.com/goualard-f/GAOL" "0001-respect-DESTDIR-for-installing-header-files.patch")
+noextract=()
+md5sums=('SKIP' SKIP)
+validpgpkeys=()
+
+prepare() {
+	cd "${pkgname%-git}"
+  patch -p1 -i $srcdir/0001-respect-DESTDIR-for-installing-header-files.patch
+}
+
+build() {
+	cd "${pkgname%-git}"
+	./configure --prefix=/usr
+	make CXXFLAGS="-std=c++11 -I.."
+}
+
+check() {
+	cd "${pkgname%-git}"
+	make -k check
+}
+
+package() {
+	cd "${pkgname%-git}"
+	make DESTDIR="$pkgdir/" install
+}
